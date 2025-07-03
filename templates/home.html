@@ -1,0 +1,119 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MALAZ store</title>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  {% include 'navbar.html' %}
+
+  <!-- Offer Banner -->
+  <div class="offer-banner">
+    <p class="offer-text">Buy 2 Shirts and get 30% off the third item.</p>
+    <div class="timer">04:00:00</div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Dress with Elegance and Confidence.</h1>
+      <p>Discover the latest trends in fashion and redefine your style.</p>
+      <button class="shop-now">Shop Now</button>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="featured-products">
+    <h2>Featured Products</h2>
+    <div class="products-grid">
+      {% for item in clothes %}
+      <div class="product-card">
+        <div class="product-image">
+          <img src="{{ item.image.url }}" alt="{{ item.name }}">
+        </div>
+        <div class="product-info">
+          <h3>{{ item.name }}</h3>
+          <p class="price">{{ item.price|intcomma }} ج.م</p>
+          <p class="description">{{ item.description }}</p>
+
+          <!-- Color Selection -->
+          <div class="color-options">
+            <div class="color-option selected" data-color="#000000" style="background-color: black;"></div>
+            <div class="color-option" data-color="#D4AF37" style="background-color: #D4AF37;"></div>
+            <div class="color-option" data-color="#005F6A" style="background-color: #005F6A;"></div>
+          </div>
+
+          <!-- Size Selection -->
+          <div class="size-options">
+            <label>Size:</label>
+            <select class="size-select">
+              {% for value, label in size_choices %}
+              <option value="{{ value }}">{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Confirm Order Button -->
+          <button class="confirm-btn"
+                  data-product-id="{{ item.id }}"
+                  data-product-name="{{ item.name }}">
+            Confirm Order
+          </button>
+        </div>
+      </div>
+      {% empty %}
+      <p class="no-products">No products found.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Order Modal -->
+  <div class="order-modal" id="order-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>Complete Your Order</h3>
+      <div class="order-summary">
+        <h4 id="order-product-name">Product: </h4>
+        <div class="summary-row">
+          <span class="summary-label">Color:</span>
+          <span class="summary-value" id="display-color"></span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Size:</span>
+          <span class="summary-value" id="display-size"></span>
+        </div>
+      </div>
+
+      <form method="post" action="{% url 'make_order' %}" id="order-form">
+        {% csrf_token %}
+        <input type="hidden" id="product-id" name="product_id">
+        <input type="hidden" id="selected-color" name="color">
+        <input type="hidden" id="selected-size" name="size">
+
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+        <div class="form-group">
+          <label for="address">Delivery Address</label>
+          <textarea id="address" name="address" required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Place Order</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="{% static 'js/home.js' %}"></script>
+  {% include 'footer.html' %}
+</body>
+</html>

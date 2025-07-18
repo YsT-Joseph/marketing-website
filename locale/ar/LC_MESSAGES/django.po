@@ -1,0 +1,143 @@
+﻿msgid ""
+msgstr ""
+"Project-Id-Version: Malaz Store\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-20 12:00+0300\n"
+"PO-Revision-Date: 2023-11-20 12:00+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+
+# Navbar translations
+msgid "Malaz"
+msgstr "ملاذ"
+
+msgid "Home"
+msgstr "الرئيسية"
+
+msgid "About"
+msgstr "من نحن"
+
+msgid "Settings"
+msgstr "الإعدادات"
+
+msgid "Language"
+msgstr "اللغة"
+
+msgid "Theme"
+msgstr "المظهر"
+
+msgid "Light"
+msgstr "فاتح"
+
+msgid "Dark"
+msgstr "مظلم"
+
+# Home page translations
+msgid "MALAZ store"
+msgstr "متجر ملاذ"
+
+msgid "Buy 2 Shirts and get 30% off the third item."
+msgstr "اشترِ قميصين واحصل على خصم 30٪ على القطعة الثالثة."
+
+msgid "Dress with Elegance and Confidence."
+msgstr "البس بأناقة وثقة."
+
+msgid "Discover the latest trends in men's fashion and redefine your style."
+msgstr "اكتشف أحدث صيحات موضة الرجال وأعد تعريف أسلوبك."
+
+msgid "Shop Now"
+msgstr "تسوق الآن"
+
+msgid "Featured Products"
+msgstr "منتجات مميزة"
+
+msgid "Product Info"
+msgstr "معلومات المنتج"
+
+msgid "No products found."
+msgstr "لا توجد منتجات."
+
+msgid "ج.م"
+msgstr "جنيه"
+
+# Product Detail translations
+msgid "Product Details"
+msgstr "تفاصيل المنتج"
+
+msgid "Size:"
+msgstr "المقاس:"
+
+msgid "Add to Cart"
+msgstr "أضف إلى السلة"
+
+msgid "Confirm Order"
+msgstr "تأكيد الطلب"
+
+msgid "Back to Products"
+msgstr "العودة للمنتجات"
+
+msgid "Complete Your Order"
+msgstr "أكمل طلبك"
+
+msgid "Product:"
+msgstr "المنتج:"
+
+msgid "Color:"
+msgstr "اللون:"
+
+msgid "Full Name"
+msgstr "الاسم الكامل"
+
+msgid "Phone Number"
+msgstr "رقم الهاتف"
+
+msgid "Delivery Address"
+msgstr "عنوان التوصيل"
+
+msgid "Place Order"
+msgstr "تقديم الطلب"
+
+msgid "Please select a color!"
+msgstr "الرجاء اختيار لون!"
+
+# Cart translations
+msgid "Your Shopping Cart"
+msgstr "سلة التسوق الخاصة بك"
+
+msgid "Product"
+msgstr "المنتج"
+
+msgid "Price"
+msgstr "السعر"
+
+msgid "Quantity"
+msgstr "الكمية"
+
+msgid "Total"
+msgstr "المجموع"
+
+msgid "Action"
+msgstr "إجراء"
+
+msgid "Remove"
+msgstr "إزالة"
+
+msgid "Total:"
+msgstr "الإجمالي:"
+
+msgid "Confirm Your Order"
+msgstr "تأكيد طلبك"
+
+msgid "Address"
+msgstr "العنوان"
+
+msgid "Submit Order"
+msgstr "إرسال الطلب"
+
+msgid "Your cart is empty"
+msgstr "سلة التسوق فارغة"

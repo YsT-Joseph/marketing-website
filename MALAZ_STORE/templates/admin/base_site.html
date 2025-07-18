@@ -1,0 +1,210 @@
+{% extends "admin/base_site.html" %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <style>
+        :root {
+            --petroleum: #006266;
+            --dark-petroleum: #004d40;
+            --gold: #FFD700;
+            --light-gold: #FFECB3;
+            --black: #121212;
+            --white: #f5f5f5;
+            --gray: #424242;
+            
+            /* Main variables */
+            --main-bg: var(--black);
+            --main-text: var(--white);
+            --module-bg: #1e1e1e;
+            --module-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --btn-bg: linear-gradient(90deg, var(--petroleum) 0%, var(--dark-petroleum) 100%);
+            --btn-bg-hover: linear-gradient(90deg, var(--dark-petroleum) 0%, var(--petroleum) 100%);
+            --btn-text: var(--white);
+            --header-border: 3px solid var(--gold);
+        }
+
+        body {
+            background: var(--main-bg);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: var(--main-text);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        #header {
+            background: var(--black);
+            border-bottom: var(--header-border);
+            padding: 20px 0; /* Added padding to header */
+        }
+
+        #site-name {
+            text-align: center;
+            margin: 0 0 30px 0; /* Reduced top margin */
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        #site-name a {
+            color: var(--gold) !important;
+            font-family: 'Playfair Display', serif;
+            text-decoration: none;
+        }
+
+        .custom-orders-btn-container {
+            display: flex;
+            justify-content: center;
+            margin: 0 0 20px 0; /* Reduced margins */
+            gap: 20px;
+            padding: 10px 0; /* Added padding */
+        }
+
+        .custom-orders-btn {
+            padding: 12px 40px;
+            background: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            border-radius: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: var(--module-shadow);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .custom-orders-btn:hover {
+            background: var(--btn-bg-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 98, 102, 0.4);
+            color: var(--light-gold);
+        }
+
+        .dark-mode-toggle {
+            padding: 12px 24px;
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            border-radius: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: var(--module-shadow);
+        }
+
+        .dark-mode-toggle:hover {
+            background: var(--light-gold);
+            transform: translateY(-2px);
+        }
+
+        .module {
+            border-radius: 0;
+            background: var(--module-bg);
+            box-shadow: var(--module-shadow);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 3px solid var(--gold);
+        }
+
+        /* Dark mode styles (kept for consistency but using same palette) */
+        body.dark-mode {
+            --main-bg: var(--black);
+            --main-text: var(--white);
+            --module-bg: #1e1e1e;
+            --module-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        body.dark-mode .dark-mode-toggle:hover {
+            background: var(--light-gold);
+        }
+
+        body.dark-mode a {
+            color: var(--gold);
+        }
+
+        /* Admin specific overrides */
+        #content {
+            background: var(--black);
+        }
+
+        #user-tools {
+            color: var(--light-gold);
+        }
+
+        #user-tools a {
+            color: var(--gold);
+            border-bottom: 1px dotted var(--gold);
+        }
+
+        #user-tools a:hover {
+            color: var(--light-gold);
+            border-bottom: 1px solid var(--light-gold);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .custom-orders-btn-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .custom-orders-btn,
+            .dark-mode-toggle {
+                width: 80%;
+                text-align: center;
+            }
+            
+            #site-name {
+                font-size: 2rem;
+                margin: 20px 0;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block branding %}
+    <div style="padding: 15px 0;"> <!-- Added wrapper div with padding -->
+        <h1 id="site-name">
+            <a href="{% url 'admin:index' %}">MALAZ STORE</a>
+        </h1>
+        <div class="custom-orders-btn-container">
+            <a href="{% url 'order_list' %}" class="custom-orders-btn">
+                Orders
+            </a>
+            <button class="dark-mode-toggle" id="darkModeToggle" type="button">
+                Toggle Theme
+            </button>
+        </div>
+    </div>
+    <script>
+        // Theme toggle with localStorage
+        const toggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        
+        function setMode(mode) {
+            if (mode === 'dark') {
+                body.classList.add('dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+            }
+        }
+        
+        // Initialize theme from localStorage
+        const savedMode = localStorage.getItem('admin-theme') || 'dark';
+        setMode(savedMode);
+
+        toggle.addEventListener('click', function() {
+            const isDark = body.classList.toggle('dark-mode');
+            localStorage.setItem('admin-theme', isDark ? 'dark' : 'light');
+        });
+    </script>
+{% endblock %}

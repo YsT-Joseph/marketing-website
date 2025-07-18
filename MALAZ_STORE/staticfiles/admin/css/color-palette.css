@@ -1,0 +1,29 @@
+/* Color checkbox styling */
+.color-checkbox-select {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.color-checkbox-select div {
+    display: flex;
+    align-items: center;
+}
+
+.color-checkbox-select input[type="checkbox"] {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Set colors for each checkbox based on color name */
+.color-checkbox-select input[type="checkbox"][value="1"] { background-color: #000000; } /* black */
+.color-checkbox-select input[type="checkbox"][value="2"] { background-color: #FFFFFF; border: 1px solid #ccc; } /* white */
+.color-checkbox-select input[type="checkbox"][value="3"] { background-color: #FF0000; } /* red */
+.color-checkbox-select input[type="checkbox"][value="4"] { background-color: #0000FF; } /* blue */
+/* Add similar rules for all your colors */

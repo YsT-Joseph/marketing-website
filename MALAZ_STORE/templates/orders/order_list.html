@@ -1,0 +1,98 @@
+<!--path: templates/orders/order_list.html -->
+<!--========================================-->
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Orders - Admin View</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background-color: #f8f9fa;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 14px 18px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #343a40;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .message {
+            font-size: 0.9rem;
+            color: #555;
+            white-space: pre-line;
+        }
+
+        .timestamp {
+            font-size: 0.85rem;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+        <a href="{% url 'admin:index' %}" 
+           style="padding: 10px 28px; background: linear-gradient(90deg, #007bff 0%, #0056b3 100%); color: #fff; border-radius: 6px; text-decoration: none; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: background 0.2s;">
+            Admin Panel
+        </a>
+    </div>
+    <h1>📦 All Customer Orders</h1>
+
+    {% if orders %}
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Product</th>
+                <th>Size</th>
+                <th>Customer Name</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Order Message</th>
+                <th>Submitted</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ order.product.name }}</td>
+                <td>{{ order.get_size_display }}</td>
+                <td>{{ order.name }}</td>
+                <td>{{ order.phone }}</td>
+                <td>{{ order.address }}</td>
+                <td class="message">{{ order.message }}</td>
+                <td class="timestamp">{{ order.created_at|naturaltime }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No orders yet.</p>
+    {% endif %}
+</body>
+</html>
+<!--========================================-->

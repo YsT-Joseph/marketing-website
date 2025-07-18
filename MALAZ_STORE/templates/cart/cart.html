@@ -1,0 +1,165 @@
+{% extends 'navbar.html' %}
+{% load static i18n humanize %}
+
+{% block content %}
+<section class="cart-section">
+    <h1>{% trans "Your Shopping Cart" %}</h1>
+    
+    {% if cart_items %}
+    <div class="cart-items">
+        <table>
+            <thead>
+                <tr>
+                    <th>{% trans "Product" %}</th>
+                    <th>{% trans "Price" %}</th>
+                    <th>{% trans "Quantity" %}</th>
+                    <th>{% trans "Total" %}</th>
+                    <th>{% trans "Action" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.price|intcomma }} {% trans "ج.م" %}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.line_total|intcomma }} {% trans "ج.م" %}</td>
+                    <td>
+                        <a href="{% url 'remove_from_cart' item.id %}" class="remove-btn">
+                            {% trans "Remove" %}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="cart-total">
+            <strong>{% trans "Total:" %} {{ total|intcomma }} {% trans "ج.م" %}</strong>
+        </div>
+
+        <!-- ✅ Confirm Order Form -->
+        <div class="confirm-order-form">
+            <h2>{% trans "Confirm Your Order" %}</h2>
+            <form method="POST" action="{% url 'confirm_cart_order' %}">
+                {% csrf_token %}
+                
+                <label for="name">{% trans "Full Name" %}:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="phone">{% trans "Phone Number" %}:</label>
+                <input type="text" id="phone" name="phone" required>
+
+                <label for="address">{% trans "Address" %}:</label>
+                <textarea id="address" name="address" required></textarea>
+
+                <button type="submit" class="confirm-btn">
+                    {% trans "Submit Order" %}
+                </button>
+            </form>
+        </div>
+        <!-- ✅ End of Form -->
+
+    </div>
+    {% else %}
+    <p class="empty-cart">{% trans "Your cart is empty" %}</p>
+    {% endif %}
+</section>
+
+<style>
+    .cart-section {
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 1rem;
+    }
+
+    .cart-items table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+    }
+
+    .cart-items th, .cart-items td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .cart-items th {
+        background-color: var(--primary, #005f6a);
+        color: white;
+    }
+
+    .remove-btn {
+        color: #dc3545;
+        text-decoration: none;
+    }
+
+    .remove-btn:hover {
+        text-decoration: underline;
+    }
+
+    .cart-total {
+        text-align: right;
+        font-size: 1.2rem;
+        margin-top: 1rem;
+        font-weight: bold;
+    }
+
+    .empty-cart {
+        text-align: center;
+        font-size: 1.2rem;
+        margin: 2rem 0;
+    }
+
+    /* ✅ Confirm Order Form Styling */
+    .confirm-order-form {
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 2rem;
+        border-radius: 12px;
+        background: #f8f9fa;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .confirm-order-form h2 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #333;
+    }
+
+    .confirm-order-form label {
+        display: block;
+        margin-top: 1rem;
+        font-weight: bold;
+        color: #444;
+    }
+
+    .confirm-order-form input,
+    .confirm-order-form textarea {
+        width: 100%;
+        padding: 0.6rem;
+        margin-top: 0.5rem;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+    }
+
+    .confirm-order-form button.confirm-btn {
+        margin-top: 1.5rem;
+        width: 100%;
+        font-size: 1.1rem;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .confirm-order-form button.confirm-btn:hover {
+        background-color: #218838;
+    }
+</style>
+{% endblock %}

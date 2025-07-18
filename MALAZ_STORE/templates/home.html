@@ -1,0 +1,186 @@
+{% load static i18n humanize %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" data-theme="light" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% trans "MALAZ store" %}</title>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --dark-mode-icon: '\f186';
+      --light-mode-icon: '\f185';
+    }
+
+    .elegance-hero {
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)), 
+        url('https://images.stockcake.com/public/e/e/a/eeac6fdb-bf23-46ff-b661-5423c3d60fc2_large/colorful-clothing-rack-stockcake.jpg') 
+        center center / cover no-repeat;
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0 2rem 0;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    [data-theme="dark"] .elegance-hero {
+      background: 
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), 
+        url('https://images.stockcake.com/public/e/e/a/eeac6fdb-bf23-46ff-b661-5423c3d60fc2_large/colorful-clothing-rack-stockcake.jpg') 
+        center center / cover no-repeat;
+    }
+
+    .elegance-content {
+      text-align: center;
+      color: white;
+      z-index: 2;
+      padding: 2rem;
+    }
+    .elegance-content h1 {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+      font-weight: 700;
+    }
+    .elegance-content p {
+      font-size: 1.4rem;
+      margin-bottom: 2.5rem;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.4);
+    }
+
+    .info-btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+      display: inline-block;
+      text-decoration: none;
+    }
+    
+    .info-btn:hover {
+      background-color: #0069d9;
+    }
+
+    @media (max-width: 768px) {
+      .elegance-content h1 { font-size: 2.2rem; }
+      .elegance-content p { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+  {% include 'navbar.html' %}
+
+  <div class="offer-banner">
+    <p class="offer-text">{% trans "Buy 2 Shirts and get 30% off the third item." %}</p>
+    <div class="timer" id="countdown-timer">04:00:00</div>
+  </div>
+
+  <section class="elegance-hero">
+    <div class="elegance-content">
+      <h1>{% trans "Dress with Elegance and Confidence." %}</h1>
+      <p>{% trans "Discover the latest trends in men's fashion and redefine your style." %}</p>
+      <button class="shop-now" id="shop-now-btn">{% trans "Shop Now" %}</button>
+    </div>
+  </section>
+
+  <section class="featured-products" id="featured-products">
+    <h2>{% trans "Featured Products" %}</h2>
+    <div class="products-grid">
+      {% for item in clothes %}
+      <div class="product-card">
+        <div class="product-image">
+          <img src="{{ item.image.url }}" alt="{{ item.name }}" loading="lazy">
+        </div>
+        <div class="product-info">
+          <h3>{{ item.name }}</h3>
+          <p class="price">{{ item.price|intcomma }} {% trans "ج.م" %}</p>
+          
+          <a href="{% url 'product_detail' item.id %}" class="info-btn">
+            {% trans "Product Info" %}
+          </a>
+        </div>
+      </div>
+      {% empty %}
+      <p class="no-products">{% trans "No products found." %}</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.documentElement.setAttribute('data-theme',
+        localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      );
+
+      const shopNowBtn = document.getElementById("shop-now-btn");
+      if (shopNowBtn) {
+        shopNowBtn.addEventListener("click", function () {
+          const target = document.getElementById("featured-products");
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      }
+    });
+
+    // Countdown timer logic
+    const timerEl = document.getElementById("countdown-timer");
+    if (timerEl) {
+      let remaining = 4 * 60 * 60;
+      function formatTime(seconds) {
+        const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+        const secs = String(seconds % 60).padStart(2, '0');
+        return `${hrs}:${mins}:${secs}`;
+      }
+      timerEl.textContent = formatTime(remaining);
+      setInterval(() => {
+        remaining--;
+        if (remaining >= 0) timerEl.textContent = formatTime(remaining);
+      }, 1000);
+    }
+
+    // Persistent countdown logic using localStorage
+    const persistentTimerEl = document.getElementById("countdown-timer");
+    const FOUR_HOURS_MS = 4 * 60 * 60 * 1000;
+    if (persistentTimerEl) {
+      let startTime = localStorage.getItem("offerStartTime");
+      const now = Date.now();
+      if (!startTime || now - parseInt(startTime) >= FOUR_HOURS_MS) {
+        startTime = now;
+        localStorage.setItem("offerStartTime", startTime);
+      } else {
+        startTime = parseInt(startTime);
+      }
+
+      function updatePersistentTimer() {
+        const current = Date.now();
+        let elapsed = current - startTime;
+        if (elapsed >= FOUR_HOURS_MS) {
+          startTime = current;
+          localStorage.setItem("offerStartTime", startTime);
+          elapsed = 0;
+        }
+
+        const remainingSec = Math.floor((FOUR_HOURS_MS - elapsed) / 1000);
+        const hrs = String(Math.floor(remainingSec / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((remainingSec % 3600) / 60)).padStart(2, '0');
+        const secs = String(remainingSec % 60).padStart(2, '0');
+        persistentTimerEl.textContent = `${hrs}:${mins}:${secs}`;
+      }
+
+      updatePersistentTimer();
+      setInterval(updatePersistentTimer, 1000);
+    }
+  </script>
+</body>
+</html>

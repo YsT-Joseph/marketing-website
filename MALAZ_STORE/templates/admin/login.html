@@ -1,0 +1,153 @@
+{% extends "admin/login.html" %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    :root {
+        --petroleum: #006266;       /* Deep petroleum color */
+        --dark-petroleum: #004d40; /* Darker petroleum shade */
+        --gold: #FFD700;          /* Classic gold color */
+        --light-gold: #FFECB3;    /* Light gold for accents */
+        --black: #121212;         /* Rich black background */
+        --white: #f5f5f5;        /* Off-white for text */
+        --gray: #424242;        /* Medium gray */
+    }
+
+    #header {
+        background: var(--black);
+        height: 80px;
+        border-bottom: 3px solid var(--gold);
+    }
+
+    #site-name a {
+        color: var(--gold) !important;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        font-family: 'Playfair Display', serif;
+    }
+
+    body.login {
+        background: var(--black);
+        background-image: radial-gradient(
+            circle at 10% 20%, 
+            rgba(0, 98, 102, 0.15) 0%, 
+            rgba(0, 0, 0, 0.9) 100%
+        );
+    }
+
+    #container {
+        max-width: 450px;
+        margin: 5% auto;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    #content {
+        border-radius: 0;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--gold);
+        background: var(--black);
+        padding: 40px 30px;
+    }
+
+    .login .form-row input {
+        border: 1px solid var(--gray);
+        border-radius: 0;
+        padding: 14px 15px;
+        font-size: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--white);
+        transition: all 0.3s ease;
+    }
+
+    .login .form-row input:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.3);
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .submit-row {
+        padding: 0;
+        margin-top: 30px;
+    }
+
+    .submit-row input {
+        background: linear-gradient(to right, var(--petroleum), var(--dark-petroleum)) !important;
+        border: none !important;
+        padding: 14px 0 !important;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        transition: all 0.3s ease !important;
+        border-radius: 0 !important;
+    }
+
+    .submit-row input:hover {
+        background: linear-gradient(to right, var(--dark-petroleum), var(--petroleum)) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 98, 102, 0.4);
+    }
+
+    .login .form-row label {
+        color: var(--light-gold);
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .login .password-reset-link a {
+        color: var(--gold);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border-bottom: 1px dotted var(--gold);
+        padding-bottom: 2px;
+    }
+
+    .login .password-reset-link a:hover {
+        color: var(--light-gold);
+        border-bottom: 1px solid var(--light-gold);
+    }
+
+    .welcome-msg {
+        color: var(--light-gold);
+        text-align: center;
+        margin: -15px 0 25px;
+        font-size: 0.95rem;
+        opacity: 0.9;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+        #container {
+            width: 90%;
+            margin: 15% auto;
+        }
+        
+        #content {
+            padding: 30px 20px;
+        }
+        
+        #site-name a {
+            font-size: 1.6rem;
+        }
+    }
+</style>
+{% endblock %}
+
+
+ {% block title %}MALAZ STORE | {% trans 'Log in' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">MALAZ STORE</a></h1>
+{% endblock %}
+
+{% block content_title %}
+<p class="welcome-msg">{% trans 'Luxury Admin Portal' %}</p>
+{% endblock %}
